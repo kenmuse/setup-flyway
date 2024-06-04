@@ -1,0 +1,80 @@
+######################################################################
+#
+# Basic validation
+#
+# Validates that the code is well-formatted, builds successfully
+# passes unit tests, and has no open security vulnerabilities
+######################################################################
+
+name: Basic validation
+
+on:
+  push:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: ['ubuntu', 'windows', 'macos']
+    runs-on: ${{matrix.operating-system}}-latest
+    steps:
+      - name: Setup Node.js 20.x
+        if: ${{ matrix.operating-system == 'windows' }}
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        with:
+          node-version: 20.x
+
+      - name: Setup Yarn
+        run: corepack enable && corepack install --global yarn@stable
+        env:
+          COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
+
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+
+      - name: Set cache (Windows)
+        if: ${{ matrix.operating-system == 'windows' }}
+        run: |
+          md \.yarn\cache
+          yarn config set enableGlobalCache false
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        with:
+          node-version: 20.x
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run prettier
+        run: yarn run format:check
+
+      - name: Run linter
+        run: yarn run lint
+
+      - name: Test
+        run: yarn run test
+
+      - name: Build
+        run: yarn run build
+
+      - name: Audit packages
+        run: yarn npm audit

@@ -1,0 +1,51 @@
+######################################################################
+#
+# License checks
+#
+# Validates the licenses for the dependencies of the project to
+# ensure that they are using an approved license. This relies on the
+# .github/dependency-review-config.yml and the licensed.yml files
+# for the configurations.
+#
+######################################################################
+
+name: License checks
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate-cached-dependency-records:
+    runs-on: ubuntu-latest
+    name: Check licenses
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+
+      - name: Setup Yarn
+        run: corepack enable && yarn set version berry
+        env:
+          COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Install licensed tool
+        run: "cd \"$RUNNER_TEMP\"\ncurl -Lfs -o licensed.tar.gz https://github.com/github/licensed/releases/download/3.9.0/licensed-3.9.0-linux-x64.tar.gz \nsudo tar -xzf licensed.tar.gz\nsudo mv licensed /usr/local/bin/licensed\n"
+      - name: Check cached dependency records
+        run: licensed status
+      - name: Dependabot license Check
+        if: ${{ github.event_name == 'pull_request' }}
+
+        uses: actions/dependency-review-action@0c155c5e8556a497adf53f2c18edabf945ed8e70

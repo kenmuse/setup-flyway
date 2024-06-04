@@ -1,0 +1,21 @@
+root = true
+
+[*.{mts,mjs,ts,json,js}]
+charset = utf-8
+end_of_line = unset
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+space_within_object_literal_braces = false
+trim_trailing_whitespace = true
+
+[dist/*.{mts,mjs,ts,json,js}]
+end_of_line = lf
+insert_final_newline = false
+
+[*.{xml,md}]
+charset = utf-8
+end_of_line = unset
+indent_size = 2
+indent_style = space
+insert_final_newline = true

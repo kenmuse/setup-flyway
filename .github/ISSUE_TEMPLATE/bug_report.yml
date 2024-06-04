@@ -1,0 +1,55 @@
+name: 🐞 Bug report
+description: Create a bug report
+# title: ''
+labels:
+  - bug
+  - needs triage
+# assignees: ''
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+  - type: input
+    attributes:
+      label: Task version
+      description: Specify the task version
+  - type: checkboxes
+    id: platform
+    attributes:
+      label: Platform
+      description: Select the operating systems where the issue occurs
+      options:
+        - label: Ubuntu
+        - label: macOS
+        - label: Windows
+        - label: Other (please specify in description)
+  - type: checkboxes
+    id: architecture
+    attributes:
+      label: What architecture?
+      options:
+        - label: amd64
+        - label: arm64
+        - label: Java
+  - type: dropdown
+    id: runner
+    attributes:
+      label: Runner Type
+      description: Select the runner type
+      options:
+        - GitHub-Hosted
+        - Self-hosted
+        - Both
+  - type: textarea
+    attributes:
+      label: Repro steps
+      description: A description with steps to reproduce the issue. If your have a public example or repo to share, please provide the link.
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A description of what you expected to happen.
+  - type: textarea
+    attributes:
+      label: Actual behavior
+      description: A description of what is actually happening.

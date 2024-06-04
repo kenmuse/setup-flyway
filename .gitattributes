@@ -1,0 +1,5 @@
+* text=auto eol=lf
+
+dist/* text
+dist/* linguist-generated=true
+dist/** linguist-vendored=true

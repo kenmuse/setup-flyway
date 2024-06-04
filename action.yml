@@ -1,0 +1,25 @@
+name: 'Setup RedGate Flyway'
+description: 'Set up a specific version of Flyway and add the
+  command-line tools to the PATH'
+author: 'RedGate'
+inputs:
+  version:
+    description: The version specification
+    default: latest
+  architecture:
+    description: The target platform architecture. Defaults to the current platform's architecture.
+  platform:
+    description: The target OS platform. Defaults to the current platform.
+  edition:
+    description: The edition of the tool to use (enterprise/team or community). Defaults to community.
+    default: community
+outputs:
+  path:
+    description: The path the the tool installation folder
+  version:
+    description: The specific version installed
+
+runs:
+  using: 'node20'
+  main: 'dist/index.mjs'
+  post: 'dist/cleanup.mjs'

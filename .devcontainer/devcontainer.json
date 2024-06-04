@@ -1,0 +1,87 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"name": "Node.js & TypeScript",
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+	"features": {
+		"ghcr.io/devcontainers/features/github-cli:1": {
+			"installDirectlyFromGitHubRelease": true,
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "20.12.2",
+			"nvmVersion": "latest"
+		},
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "17"
+		}
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"EditorConfig.EditorConfig",
+				"Orta.vscode-jest",
+				"brunnerh.file-properties-viewer",
+				"me-dutour-mathieu.vscode-github-actions",
+				"arcanis.vscode-zipfs",
+				"esbenp.prettier-vscode",
+				"github.vscode-github-actions",
+				"mhutchie.git-graph"
+			],
+			"settings": {
+				"eslint.lintTask.enable": true,
+				"eslint.probe": [
+					"typescript",
+					"javascript"
+				],
+				"eslint.workingDirectories": [
+					"./src",
+					"./test",
+					"./"
+				],
+				"jest.rootPath": "./test",
+				"jest.runMode": {
+					"type": "on-demand",
+					"deferred": true
+				},
+				"typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+				"search.exclude": {
+					"**/.yarn": true,
+					"**/.pnp.*": true
+				},
+				"eslint.nodePath": ".yarn/sdks",
+        "eslint.enable": true,
+        "eslint.experimental.useFlatConfig": true,
+        "eslint.validate": [
+          "javascript",
+          "typescript"
+        ],
+				"prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
+				"typescript.tsdk": ".yarn/sdks/typescript/lib",
+				"typescript.enablePromptUseWorkspaceTsdk": true,
+				"[javascript]": {
+					"editor.defaultFormatter": "esbenp.prettier-vscode"
+				},
+				"[jsonc]": {
+					"editor.defaultFormatter": "vscode.json-language-features"
+				},
+        // Workaround for https://github.com/yarnpkg/berry/issues/6270
+        "typescript.tsserver.experimental.useVsCodeWatcher": false
+			}
+		}
+	},
+
+  "onCreateCommand": {
+    "setup-yarn": "corepack enable && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install --global yarn@stable"
+  },
+  "updateContentCommand": {
+    "install-packages": "yarn install && yarn dlx @yarnpkg/sdks base"
+  },
+  "postAttachCommand": {
+    "configure-git": "[ \"$(git config --global --get safe.directory)\" = '${containerWorkspaceFolder}' ] || git config --global --add safe.directory '${containerWorkspaceFolder}'"
+  }
+}

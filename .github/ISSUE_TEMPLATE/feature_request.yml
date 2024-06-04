@@ -1,0 +1,23 @@
+name: 💡 Feature request
+description: Suggest an idea for this project
+# title: ""
+labels:
+  - feature request
+  - needs triage
+# assignees:
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: Describe your proposal
+  - type: textarea
+    attributes:
+      label: Justification
+      description: What's the use case?
+      placeholder: Tell us why this would be helpful to have and how you would use it
+  - type: checkboxes
+    attributes:
+      label: Contribution
+      description: We love contributions. Are you willing to help?
+      options:
+        - label: Yes! I'm willing to submit a PR.

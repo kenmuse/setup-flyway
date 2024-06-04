@@ -1,0 +1,9 @@
+allow_licenses:
+  - 'Apache-2.0'
+  - '0BSD'
+  - 'BSD-2-Clause'
+  - 'BSD-3-Clause'
+  - 'ISC'
+  - 'MIT'
+  - 'CC0-1.0'
+  - 'Unlicense'

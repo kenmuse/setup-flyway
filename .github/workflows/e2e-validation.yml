@@ -1,0 +1,170 @@
+######################################################################
+#
+# End-to-end validation
+#
+# Validate that the Action can be run on a variety of environments
+# and configurations to ensure that it will behave as expected.
+# Tests include a variety of versions (including "latest") on
+# different operating systems. Also validates side-by-side
+# installations of multiple versions of the tools.
+#
+######################################################################
+
+name: End-to-end validation
+
+on:
+  push:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  setup-tool-check-versions:
+    name: Setup ${{ matrix.version }} (${{matrix.edition}}) - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos, windows, ubuntu]
+        edition:
+          - community
+          - enterprise
+        version:
+          - 10.9.0
+          - 10.10.0
+          - 10.11.1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - name: setup-tool
+        uses: ./
+        id: setup-tool
+        with:
+          version: ${{ matrix.version }}
+          edition: ${{ matrix.edition }}
+      - name: Verify Install
+        run: ./test/verify-version.sh "${{ matrix.version }}" "${{ steps.setup-tool.outputs.path }}"
+        shell: bash
+
+  setup-tool-check-latest:
+    name: Setup latest (${{matrix.edition}}) - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos, windows, ubuntu]
+        edition:
+          - community
+          - enterprise
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - name: setup-tool
+        uses: ./
+        id: setup-tool
+        with:
+          version: latest
+          edition: ${{ matrix.edition }}
+      - name: Verify Install
+        run: ./test/verify-version.sh "${{ steps.setup-tool.outputs.version }}" "${{ steps.setup-tool.outputs.path }}"
+        shell: bash
+
+  setup-tool-check-java:
+    name: Setup Java latest (${{matrix.edition}}) - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos, windows, ubuntu]
+        edition:
+          - community
+          - enterprise
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - name: setup-java
+        uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+      - name: setup-tool
+        uses: ./
+        id: setup-tool
+        with:
+          version: 10.8.1
+          architecture: java
+          edition: ${{ matrix.edition }}
+      - name: Verify Install
+        run: ./test/verify-version.sh "10.8.1" "${{ steps.setup-tool.outputs.path }}"
+        shell: bash
+
+  setup-tool-check-sbs:
+    name: Setup side by side - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos, windows, ubuntu]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - name: setup-java
+        uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+      - name: Setup community
+        uses: ./
+        id: setup-tool-community
+        with:
+          version: latest
+          edition: community
+      - name: Verify Community Install
+        run: ./test/verify-version.sh "${{ steps.setup-tool-community.outputs.version }}" "${{ steps.setup-tool-community.outputs.path }}"
+        shell: bash
+      - name: Setup Java Community
+        uses: ./
+        id: setup-tool-java-community
+        with:
+          version: latest
+          architecture: java
+          edition: community
+      - name: Verify Java Community Install
+        run: ./test/verify-version.sh "${{ steps.setup-tool-java-community.outputs.version }}" "${{ steps.setup-tool-java-community.outputs.path }}"
+        shell: bash
+      - name: Setup enterprise
+        uses: ./
+        id: setup-tool-enterprise
+        with:
+          version: latest
+          edition: enterprise
+      - name: Verify Enterprise Install
+        run: ./test/verify-version.sh "${{ steps.setup-tool-enterprise.outputs.version }}" "${{ steps.setup-tool-enterprise.outputs.path }}"
+        shell: bash
+      - name: Setup Java Community
+        uses: ./
+        id: setup-tool-java-enterprise
+        with:
+          version: latest
+          architecture: java
+          edition: enterprise
+      - name: Verify Java Enterprise Install
+        run: ./test/verify-version.sh "${{ steps.setup-tool-java-enterprise.outputs.version }}" "${{ steps.setup-tool-java-enterprise.outputs.path }}"
+        shell: bash
