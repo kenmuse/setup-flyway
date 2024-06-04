@@ -50,7 +50,7 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.1",
     "@types/semver": "^7.5.8",
-    "@typescript-eslint/eslint-plugin": ">=8.0.0-alpha",
+    "@typescript-eslint/eslint-plugin": ">=8.0.0-alpha.26",
     "@typescript-eslint/parser": "^8.0.0-alpha",
     "esbuild": "^0.21.4",
     "eslint": "^9.4.0",
