@@ -15,7 +15,7 @@ The `setup-flyway` action will download and set up a requested version of the Fl
 - `edition` - The edition of the Flyway CLI to set up. Can specify `community` or `enterprise`. **Default:** `community`.
 
 > [!NOTE]
-> The Flyway CLI supports 'windows-x64', 'linux-x64', 'macosx-arm64', 'macosx-x64', and 'linux-alpine-x64' platforms. 
+> The Flyway CLI supports `windows-x64`, `linux-x64`, `macosx-arm64`, `macosx-x64`, and `linux-alpine-x64` platforms. 
 > For all other platforms, the Java version of the Flyway CLI should be used.
 
 ### Basic Configuration

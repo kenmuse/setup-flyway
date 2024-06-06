@@ -1,7 +1,7 @@
-name: 'Setup RedGate Flyway'
+name: 'Setup Redgate Flyway'
 description: 'Set up a specific version of Flyway and add the
   command-line tools to the PATH'
-author: 'RedGate'
+author: 'Redgate'
 inputs:
   version:
     description: The version specification
