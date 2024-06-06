@@ -1,23 +1,18 @@
 {
   "name": "setup-flyway",
   "version": "0.1.0",
-  "description": "Setup RedGate Flyway for Actions",
+  "description": "Setup Redgate Flyway for Actions",
   "main": "dist/index.mjs",
   "type": "module",
   "scripts": {
     "build": "yarn node ./esbuild.mjs",
     "format": "yarn prettier --no-error-on-unmatched-pattern --config ./.prettierrc.yml --write \"**/*.{mts,ts,yml,yaml}\"",
     "format:check": "yarn prettier --no-error-on-unmatched-pattern --config ./.prettierrc.yml --check \"**/*.{mts,ts,yml,yaml}\"",
-    "lint": "yarn eslint",
-    "lint:fix": "yarn eslint --fix",
+    "lint:check": "yarn eslint",
+    "lint": "yarn eslint --fix",
     "prerelease": "yarn run build",
     "release": "git add -f dist/index.js dist/cleanup.js",
-    "test": "yarn jest --config jest.config.ts",
-    "test-esm": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --config jest.config.ts",
-    "test-cmd1": "mkdir -p /tmp/runner/cache && INPUT_VERSION=\"10.0.0\" INPUT_ARCHITECTURE=x64 RUNNER_TOOL_CACHE=/tmp/runner/cache RUNNER_TEMP=/tmp/runner/tmp node dist/setup.mjs",
-    "test-cmd2": "mkdir -p /tmp/runner/cache && INPUT_VERSION=\"latest\" INPUT_ARCHITECTURE=x64 RUNNER_TOOL_CACHE=/tmp/runner/cache RUNNER_TEMP=/tmp/runner/tmp node dist/setup.mjs",
-    "test-cmd3": "mkdir -p /tmp/runner/cache && INPUT_VERSION=\"<10.5\" INPUT_ARCHITECTURE=x64 RUNNER_TOOL_CACHE=/tmp/runner/cache RUNNER_TEMP=/tmp/runner/tmp node dist/setup.mjs",
-    "test-cmd4": "mkdir -p /tmp/runner/cache && INPUT_VERSION=\"10.8\" INPUT_ARCHITECTURE=java RUNNER_TOOL_CACHE=/tmp/runner/cache RUNNER_TEMP=/tmp/runner/tmp node dist/setup.mjs"
+    "test": "yarn jest --config jest.config.ts"
   },
   "repository": "git+https://github.com/kenmuse/setup-flyway.git",
   "keywords": [
