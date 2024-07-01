@@ -2922,10 +2922,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^15.3.0":
-  version: 15.3.0
-  resolution: "globals@npm:15.3.0"
-  checksum: 10/ad4e845884e045d211fd7c4511f51a3484d6db8438d7a8ec9366919771f802596964aaa514f2561bd375ee7d0d57e83a056ef50996eee5a676400534c75e4d06
+"globals@npm:^15.7.0":
+  version: 15.7.0
+  resolution: "globals@npm:15.7.0"
+  checksum: 10/69302c243016e5f5b3bc1784f6afb3476ac3a05542148e5eb651d2882ac19788f027155fc4a018976a573a156a1fbd4ff7da74d9240f5faed4da723c9d6c1616
   languageName: node
   linkType: hard
 
@@ -4618,7 +4618,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-node: "npm:^11.1.0"
     fast-xml-parser: "npm:^4.4.0"
-    globals: "npm:^15.3.0"
+    globals: "npm:^15.7.0"
     jest: "npm:^29.7.0"
     jest-circus: "npm:^29.7.0"
     jest-cli: "npm:^29.7.0"
