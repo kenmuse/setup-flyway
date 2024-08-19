@@ -46,7 +46,7 @@
     "@types/node": "^20.14.13",
     "@types/semver": "^7.5.8",
     "@typescript-eslint/eslint-plugin": ">=8.0.0-alpha",
-    "@typescript-eslint/parser": ">=8.0.0-alpha",
+    "@typescript-eslint/parser": ">=8.1.0",
     "esbuild": "^0.23.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
