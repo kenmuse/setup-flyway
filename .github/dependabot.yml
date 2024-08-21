@@ -19,8 +19,8 @@ updates:
       actions-all:
         applies-to: version-updates
         update-types:
-        - minor
-        - patch
+          - minor
+          - patch
 
   - package-ecosystem: npm
     directory: '/'
@@ -31,11 +31,11 @@ updates:
         dependency-type: development
         applies-to: version-updates
         update-types:
-        - minor
-        - patch
+          - minor
+          - patch
       prod-dependencies:
         dependency-type: production
         applies-to: version-updates
         update-types:
-        - minor
-        - patch
+          - minor
+          - patch
